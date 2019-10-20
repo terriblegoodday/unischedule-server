@@ -4,7 +4,7 @@
   "description": "Server for the university class schedule",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec npm run lint && babel-node index.js",
+    "dev": "nodemon --exec babel-node index.js --source-maps",
     "start": "node dist/index.js",
     "build": "babel -d dist/ src/",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,9 +14,20 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.9.6",
-    "graphql": "^14.5.8"
+    "graphql": "^14.5.8",
+    "sequelize": "^5.21.1",
+    "sqlite3": "^4.1.0"
   },
   "devDependencies": {
-    "eslint": "^6.5.1"
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "eslint": "^6.5.1",
+    "nodemon": "^1.19.4"
   }
 }
