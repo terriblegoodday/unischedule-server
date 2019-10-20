@@ -1,0 +1,22 @@
+{
+  "name": "schedule-server",
+  "version": "0.0.1",
+  "description": "Server for the university class schedule",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec npm run lint && babel-node index.js",
+    "start": "node dist/index.js",
+    "build": "babel -d dist/ src/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Eduard Dzhumagaliev",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.9.6",
+    "graphql": "^14.5.8"
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1"
+  }
+}
