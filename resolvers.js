@@ -7,7 +7,43 @@ export const resolvers = {
   Query: {
     getAllTeachers: () => Teacher.findAll(),
     getAllGroups: () => Group.findAll(),
-    getAllClasses: () => Class.findAll()
+    getAllClasses: () => Class.findAll(),
+    getCalendar: async (_ , {groupId, weekType}) => {
+      let classes = await Class.findAll( {where: {
+      groupFk: groupId,
+      week: weekType
+    } }).map(
+      ({id, time, type, place, description, week, teacherFk, groupFk, number, weekDay}) => {
+        return {
+          id,
+          time,
+          type,
+          place,
+          description,
+          week,
+          teacherId: teacherFk,
+          groupId: groupFk,
+          number,
+          weekDay
+        }
+      })
+      var schedule = Array(6).fill(null).map(
+          (_, index) => { 
+            var availableClasses = {}
+            classes.forEach(
+              (value) => {
+                if (value.weekDay == index) availableClasses[value.number] = value
+              }
+            )
+            return {
+              number: index,
+              classes: Array(8).fill(null).map((_, index) => availableClasses[index] || null)
+            }
+          }
+        )
+      console.log(schedule)
+      return schedule
+    }
     // getAllTeachers: () => [{
     //     id: 1,
     //     fullName: "Елена Ивановна Антонова",
@@ -25,16 +61,18 @@ export const resolvers = {
           groupFk: root.id
         }
       }).map(
-        ({id, time, place, description, week, teacherFk, groupFk, number}) => {
+        ({id, time, type, place, description, week, teacherFk, groupFk, number, weekDay}) => {
           return {
             id,
             time,
+            type,
             place,
             description,
             week,
             teacherId: teacherFk,
             groupId: groupFk,
-            number
+            number,
+            weekDay
           }
         }
       )
@@ -48,16 +86,18 @@ export const resolvers = {
           teacherFk: root.id
         }
       }).map(
-        ({id, time, place, description, week, teacherFk, groupFk, number}) => {
+        ({id, time, type, place, description, week, teacherFk, groupFk, number, weekDay}) => {
           return {
             id,
             time,
+            type,
             place,
             description,
             week,
             teacherId: teacherFk,
             groupId: groupFk,
-            number
+            number,
+            weekDay
           }
         }
       )
@@ -87,14 +127,16 @@ export const resolvers = {
         description
       })
     },
-    createClass: async (root, { teacher, group, place, description, week, number }, context, info) => {
+    createClass: async (root, { teacher, group, place, description, week, number, weekDay, type }, context, info) => {
       return Class.create({
         place,
         description,
         week,
         number,
         groupFk: group,
-        teacherFk: teacher
+        teacherFk: teacher,
+        weekDay,
+        type
       })
     }
   }

@@ -22,7 +22,8 @@ const ClassModel = db.define('class', {
   description: { type: Sequelize.STRING },
   week: { type: Sequelize.BOOLEAN },
   number: { type: Sequelize.INTEGER },
-  weekDay: { type: Sequelize.INTEGER }
+  weekDay: { type: Sequelize.INTEGER },
+  type: { type: Sequelize.INTEGER }
 })
 
 TeacherModel.hasMany(ClassModel, {

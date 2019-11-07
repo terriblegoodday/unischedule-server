@@ -32,7 +32,15 @@ const typeDefs = gql`
     groupId: ID!
     group: Group!       # needs resolver
     number: Int!
-    weekday: Int!
+    weekDay: Int!
+    type: ClassType
+  }
+
+
+  # 'virtual' type, has no memory representation
+  type Day {
+    number: Int!
+    classes: [Class]!
   }
 
   enum WeekType {       # naive solution, but it works!
@@ -40,10 +48,18 @@ const typeDefs = gql`
     ODD
   }
 
+  enum ClassType {
+    PRACTICE
+    LECTURE
+    LAB
+    SEMINAR
+  }
+
   type Query {
     getAllTeachers: [Teacher]!
     getAllGroups: [Group]!
     getAllClasses: [Class]!
+    getCalendar(groupId: Int!, weekType: WeekType!): [Day]!
   }
 
   type Mutation {
@@ -64,7 +80,8 @@ const typeDefs = gql`
       description: String!,
       week: WeekType!,
       number: Int!,
-      weekday: Int!
+      weekDay: Int!,
+      type: ClassType
     ): Class
   }
 `
